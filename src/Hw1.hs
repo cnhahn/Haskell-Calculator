@@ -12,6 +12,18 @@
 
  -}
 
+{-
+
+Cited helpfull source matterial for clearity:
+
+ -- Used resources from http://learnyouhaskell.com/chapters.
+ -- Used resources from https://www.schoolofhaskell.com
+ -- Used resources form https://en.wikibooks.org/wiki/Haskell/Control_structures
+ -- Used resources from the chapters 1, 2, 4 as suggested on piazza. 
+ -- Also got help form TA's in section and group disscussion.
+
+-}
+
 module Hw1 where
 
 import Prelude  hiding (replicate, sum, reverse)
@@ -29,8 +41,14 @@ import Prelude  hiding (replicate, sum, reverse)
 -- 36
 
 sumList :: [Int] -> Int
-sumList xs = error "TBD:sumList"
 
+--sumList xs = error "TBD:sumList"
+sumList [] = 0
+sumList (h:xs) = h + sumList xs
+--sumList xs 
+--	| [] = 0
+--	| (x:ms) = x + sumList ms 
+ 
 
 -- | `digitsOfInt n` should return `[]` if `n` is not positive,
 --    and otherwise returns the list of digits of `n` in the
@@ -43,8 +61,10 @@ sumList xs = error "TBD:sumList"
 -- [3, 5, 2, 6, 6, 3]
 
 digitsOfInt :: Int -> [Int]
-digitsOfInt n = error "TBD:digitsOfInt"
-
+--digitsOfInt n = error "TBD:digitsOfInt"
+digitsOfInt 0 = []
+--digitsOfInt n = n:(digitsOfInt n)
+digitsOfInt n = digitsOfInt (div n 10) ++ [mod n 10]
 
 -- | `digits n` retruns the list of digits of `n`
 --
@@ -76,7 +96,9 @@ digits n = digitsOfInt (abs n)
 -- 2
 
 additivePersistence :: Int -> Int
-additivePersistence n = error "TBD"
+--additivePersistence n = error "TBD"
+additivePersistence n = if n < 10 then 0 else additivePersistence(sumList(digits(n))) + 1 
+
 
 -- | digitalRoot n is the digit obtained at the end of the sequence
 --   computing the additivePersistence
@@ -84,7 +106,8 @@ additivePersistence n = error "TBD"
 -- >>> digitalRoot 9876
 -- 3
 digitalRoot :: Int -> Int
-digitalRoot n = error "TBD"
+--digitalRoot n = error "TBD"
+digitalRoot n = if n < 10 then n else digitalRoot(sumList(digits(n)))
 
 
 -- | listReverse [x1,x2,...,xn] returns [xn,...,x2,x1]
@@ -99,7 +122,10 @@ digitalRoot n = error "TBD"
 -- ["bicycle", "my", "ride", "to", "want", "i"]
 
 listReverse :: [a] -> [a]
-listReverse xs = error "TBD"
+--listReverse xs = error "TBD"
+listReverse [] = []
+listReverse (h:xs) = listReverse xs ++ [h] 
+
 
 -- | In Haskell, a `String` is a simply a list of `Char`, that is:
 --
@@ -113,4 +139,7 @@ listReverse xs = error "TBD"
 -- False
 
 palindrome :: String -> Bool
-palindrome w = error "TBD"
+--palindrome w = error "TBD"
+palindrome [] = False 
+--palindrome [_] = False
+palindrome w = w == listReverse w
